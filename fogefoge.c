@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "funcoes.h"
-
-// para declarar uma matriz passa a primeira dimensão [linhas], e segunda dimensão [colunas].
+#include "mapa.h"
 
 MAPA m;
+POSICAO heroi;
 
 int main(){
 
-    leMapa();
+    leMapa(&m);
+    encontraMapa(&m, &heroi, '@');
     
     do{
-        printMapa();
+        printMapa(&m);
 
         char comando;
         scanf("%c",&comando);
@@ -20,17 +21,7 @@ int main(){
 
     }while(!acabou());
 
-    liberaMapa();
-}
-
-
-void liberaMapa(){
-    /// Limpeza da memoria alocada;
-    for (int i = 0; i < m.linhas; i++){
-        free(m.matriz[i]);
-    }
-    free(m.matriz);
-    ///
+    liberaMapa(&m);
 }
 
 int acabou(){
@@ -38,71 +29,27 @@ int acabou(){
 }
 
 void move(char direction){
-    int x, y;
 
-    //acha a posição do foge foge
-    for (int i =0; i < m.linhas; i++){
-        for(int j =0; j < m.colunas; j++){
-            if(m.matriz[i][j] == '@'){
-                x = i;
-                y = j;
-            }
-        }
-    }
+    m.matriz[heroi.x][heroi.y] = '.';
 
     switch (direction)
     {
     case 'a':
-        m.matriz[x][y-1] = '@';
+        m.matriz[heroi.x][heroi.y-1] = '@';
+        heroi.y--;
         break;
     case 'w':
-        m.matriz[x-1][y] = '@';
+        m.matriz[heroi.x-1][heroi.y] = '@';
+        heroi.x--;
         break;
     case 's':
-        m.matriz[x+1][y] = '@';
+        m.matriz[heroi.x+1][heroi.y] = '@';
+        heroi.x++;
         break;
     case 'd':
-        m.matriz[x][y+1]='@';
+        m.matriz[heroi.x][heroi.y+1]='@';
+        heroi.y++;
         break;
     }
 
-    m.matriz[x][y]= '.';
-
-}
-
-void leMapa(){
-    FILE* f;
-    
-    f = fopen("mapa.txt", "r");
-
-    if (f == 0){
-        printf("Erro na abertura do mapa\n");
-        exit(1);
-    }
-
-    fscanf(f, "%d %d", &(m.linhas), &(m.colunas));
-
-    alocaMapa();
-
-    for(int i = 0; i < m.linhas; i++){
-        fscanf(f, "%s", m.matriz[i]);
-    }
-
-    fclose(f);
-}
-
-void alocaMapa(){
-    /// Alocação dinamica de memoria;
-    m.matriz = malloc(sizeof(char*) * m.linhas);
-
-    for (int i =0; i<5; i++){
-        m.matriz[i] = malloc(sizeof(char) * (m.colunas + 1));
-    }
-    ///
-}
-
-void printMapa(){
-    for(int i =0; i< m.linhas; i++){
-        printf("%s\n", m.matriz[i]);
-    }
 }
