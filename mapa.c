@@ -26,7 +26,7 @@ void alocaMapa(MAPA* m){
     /// Alocação dinamica de memoria;
     m->matriz = malloc(sizeof(char*) * m->linhas);
 
-    for (int i =0; i<5; i++){
+    for (int i =0; i < m->linhas; i++){
         m->matriz[i] = malloc(sizeof(char) * (m->colunas + 1));
     }
     ///

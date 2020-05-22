@@ -30,26 +30,45 @@ int acabou(){
 
 void move(char direction){
 
-    m.matriz[heroi.x][heroi.y] = '.';
+    if (direction != 'a' &&
+        direction != 's' &&
+        direction != 'd' &&
+        direction != 'w'){
+        return;
+        }
+    
+    int proximox = heroi.x;
+    int proximoy = heroi.y;
+
 
     switch (direction)
     {
     case 'a':
-        m.matriz[heroi.x][heroi.y-1] = '@';
-        heroi.y--;
+        proximoy--;
         break;
     case 'w':
-        m.matriz[heroi.x-1][heroi.y] = '@';
-        heroi.x--;
+        proximox--;
         break;
     case 's':
-        m.matriz[heroi.x+1][heroi.y] = '@';
-        heroi.x++;
+        proximox++;
         break;
     case 'd':
-        m.matriz[heroi.x][heroi.y+1]='@';
-        heroi.y++;
+        proximoy++;
         break;
     }
 
+    if (proximox >= m.linhas){
+        return;
+    }
+    if (proximoy >= m.colunas){
+        return;
+    }
+    if (m.matriz[proximox][proximoy] != '.'){
+        return;
+    }
+
+    m.matriz[proximox][proximoy] = '@';
+    m.matriz[heroi.x][heroi.y] = '.';
+    heroi.x = proximox;
+    heroi.y = proximoy;
 }
