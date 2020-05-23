@@ -9,7 +9,7 @@ POSICAO heroi;
 int main(){
 
     leMapa(&m);
-    encontraMapa(&m, &heroi, '@');
+    encontraMapa(&m, &heroi, PERSONAGEM);
     
     do{
         printMapa(&m);
@@ -28,14 +28,14 @@ int acabou(){
     return 0;
 }
 
+int ehdirecao(char direcao){
+    return direcao == ESQUERDA || direcao == DIREITA || direcao == CIMA || direcao == BAIXO;
+}
+
 void move(char direction){
 
-    if (direction != 'a' &&
-        direction != 's' &&
-        direction != 'd' &&
-        direction != 'w'){
+    if (!ehdirecao(direction))
         return;
-        }
     
     int proximox = heroi.x;
     int proximoy = heroi.y;
@@ -43,32 +43,27 @@ void move(char direction){
 
     switch (direction)
     {
-    case 'a':
+    case ESQUERDA:
         proximoy--;
         break;
-    case 'w':
+    case CIMA:
         proximox--;
         break;
-    case 's':
+    case BAIXO:
         proximox++;
         break;
-    case 'd':
+    case DIREITA:
         proximoy++;
         break;
     }
 
-    if (proximox >= m.linhas){
+    if(!ehvalida(&m, proximox, proximoy))
         return;
-    }
-    if (proximoy >= m.colunas){
-        return;
-    }
-    if (m.matriz[proximox][proximoy] != '.'){
-        return;
-    }
 
-    m.matriz[proximox][proximoy] = '@';
-    m.matriz[heroi.x][heroi.y] = '.';
+    if(!ehmapa(&m, proximox, proximoy))
+        return;
+        
+    andamapa(&m, heroi.x, heroi.y, proximox, proximoy);
     heroi.x = proximox;
     heroi.y = proximoy;
 }

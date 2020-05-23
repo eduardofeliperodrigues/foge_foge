@@ -22,6 +22,20 @@ void leMapa(MAPA* m){
     fclose(f);
 }
 
+int ehvalida(MAPA*m, int x, int y){
+    if (x >= m->linhas){
+        return 0;
+    }
+    if (y >= m->colunas){
+        return 0;
+    }
+    
+    return 1;
+}
+int ehmapa(MAPA*m , int x, int y){
+    return m->matriz[x][y] == VAZIO;
+}
+    
 void alocaMapa(MAPA* m){
     /// Alocação dinamica de memoria;
     m->matriz = malloc(sizeof(char*) * m->linhas);
@@ -46,6 +60,12 @@ void liberaMapa(MAPA* m){
 
     free(m->matriz);
     ///
+}
+
+void andamapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino){
+    char personagem = m->matriz[xorigem][yorigem];
+    m->matriz[xdestino][ydestino] = personagem;
+    m->matriz[xorigem][yorigem] = VAZIO;
 }
 
 void encontraMapa(MAPA* m, POSICAO* p, char c){

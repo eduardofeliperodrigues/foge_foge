@@ -19,3 +19,9 @@ void leMapa();
 void alocaMapa();
 void printMapa();
 void encontraMapa(MAPA* m, POSICAO* p, char c);
+int ehvalida(MAPA*m, int x, int y);
+int ehmapa(MAPA*m , int x, int y);
+void andamapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
+
+
+#define VAZIO '.'
