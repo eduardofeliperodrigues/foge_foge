@@ -4,19 +4,8 @@
 #include "mapa.h"
 
 MAPA m;
+MAPA copia;
 POSICAO heroi;
-
-void fantasmas(){
-    for (int i=0; i < m.linhas; i++){
-        for(int j=0; j < m.colunas; j++){
-            if (m.matriz[i][j] == FANTASMA){
-                if(ehvalida(&m, i, j+1)){
-                    andamapa(&m, i, j, i , j+1);
-                }
-            }
-        }
-    }
-}
 
 int main(){
 
@@ -29,7 +18,9 @@ int main(){
         char comando;
         scanf("%c",&comando);
         fflush(stdin);
+
         move(comando);
+
         fantasmas();
 
     }while(!acabou());
@@ -42,7 +33,7 @@ int acabou(){
 }
 
 int ehdirecao(char direcao){
-    return direcao == ESQUERDA || direcao == DIREITA || direcao == CIMA || direcao == BAIX;
+    return direcao == ESQUERDA || direcao == DIREITA || direcao == CIMA || direcao == BAIXO;
 }
 
 void move(char direction){
@@ -73,10 +64,27 @@ void move(char direction){
     if(!ehvalida(&m, proximox, proximoy))
         return;
 
-    if(!ehmapa(&m, proximox, proximoy))
+    if(!ehcaminho(&m, proximox, proximoy))
         return;
         
     andamapa(&m, heroi.x, heroi.y, proximox, proximoy);
     heroi.x = proximox;
     heroi.y = proximoy;
+}
+
+void fantasmas(){
+
+    copiamapa(&copia, &m);
+
+    for (int i=0; i < m.linhas; i++){
+        for(int j=0; j < m.colunas; j++){
+            if (copia.matriz[i][j] == FANTASMA){
+                if(ehvalida(&m, i, j+1) && ehcaminho(&m, i, j+1)){
+                    andamapa(&m, i, j, i , j+1);
+                }
+            }
+        }
+    }
+
+    liberaMapa(&copia);
 }

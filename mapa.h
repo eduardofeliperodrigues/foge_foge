@@ -20,8 +20,8 @@ void alocaMapa();
 void printMapa();
 void encontraMapa(MAPA* m, POSICAO* p, char c);
 int ehvalida(MAPA*m, int x, int y);
-int ehmapa(MAPA*m , int x, int y);
+int ehcaminho(MAPA*m , int x, int y);
 void andamapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
-
+void copiamapa(MAPA* destino, MAPA* origem);
 
 #define VAZIO '.'
