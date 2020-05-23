@@ -6,6 +6,18 @@
 MAPA m;
 POSICAO heroi;
 
+void fantasmas(){
+    for (int i=0; i < m.linhas; i++){
+        for(int j=0; j < m.colunas; j++){
+            if (m.matriz[i][j] == FANTASMA){
+                if(ehvalida(&m, i, j+1)){
+                    andamapa(&m, i, j, i , j+1);
+                }
+            }
+        }
+    }
+}
+
 int main(){
 
     leMapa(&m);
@@ -18,6 +30,7 @@ int main(){
         scanf("%c",&comando);
         fflush(stdin);
         move(comando);
+        fantasmas();
 
     }while(!acabou());
 
@@ -29,7 +42,7 @@ int acabou(){
 }
 
 int ehdirecao(char direcao){
-    return direcao == ESQUERDA || direcao == DIREITA || direcao == CIMA || direcao == BAIXO;
+    return direcao == ESQUERDA || direcao == DIREITA || direcao == CIMA || direcao == BAIX;
 }
 
 void move(char direction){
