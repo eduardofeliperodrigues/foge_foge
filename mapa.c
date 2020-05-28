@@ -81,14 +81,32 @@ void andamapa(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino){
     m->matriz[xorigem][yorigem] = VAZIO;
 }
 
-void encontraMapa(MAPA* m, POSICAO* p, char c){
+int encontraMapa(MAPA* m, POSICAO* p, char c){
     //acha a posição do foge foge
     for (int i =0; i < m->linhas; i++){
         for(int j =0; j < m->colunas; j++){
             if(m->matriz[i][j] == c){
                 p->x = i;
                 p->y = j;
+                return 1;
             }
         }
     }
+    return 0;
+}
+
+int podeandar(MAPA* m, char personagem, int x, int y){
+    return 
+        ehvalida(m, x, y) &&
+        !ehparede(m, x, y);
+        !ehpersonagem(m, personagem, x, y);
+}
+
+int ehparede(MAPA* m, int x, int y){
+    return m->matriz[x][y] == PAREDEHORIZONTAL ||
+        m->matriz[x][y] == PAREDEVERTICAL;
+}
+
+int ehpersonagem(MAPA* m, char personagem, int x, int y){
+    return m->matriz[x][y] == personagem;
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "funcoes.h"
 #include "mapa.h"
 
@@ -29,7 +30,9 @@ int main(){
 }
 
 int acabou(){
-    return 0;
+    POSICAO pos;
+    int encontrou = encontraMapa(&m, &pos, PERSONAGEM);
+    return !encontrou;
 }
 
 int ehdirecao(char direcao){
@@ -61,15 +64,35 @@ void move(char direction){
         break;
     }
 
-    if(!ehvalida(&m, proximox, proximoy))
-        return;
-
-    if(!ehcaminho(&m, proximox, proximoy))
+    if(!podeandar(&m, PERSONAGEM, proximox, proximoy))
         return;
         
     andamapa(&m, heroi.x, heroi.y, proximox, proximoy);
     heroi.x = proximox;
     heroi.y = proximoy;
+}
+
+int praondeofantasmavai(int xatual, int yatual,int* xdestino, int* ydestino){
+    int opcoes[4][2] = {
+        {xatual, yatual -1},
+        {xatual-1, yatual},
+        {xatual, yatual+1},
+        {xatual+1, yatual}
+    };
+    srand(time(0));
+    for(int i = 0; i <10; i++){
+        int posicao = rand() % 4;
+
+        if (podeandar(&m, FANTASMA, opcoes[posicao][0], opcoes[posicao][1])){
+            *xdestino = opcoes[posicao][0];
+            *ydestino = opcoes[posicao][1];
+
+            return 1;
+
+        }
+    }
+
+    return 0;
 }
 
 void fantasmas(){
@@ -78,9 +101,15 @@ void fantasmas(){
 
     for (int i=0; i < m.linhas; i++){
         for(int j=0; j < m.colunas; j++){
+                
             if (copia.matriz[i][j] == FANTASMA){
-                if(ehvalida(&m, i, j+1) && ehcaminho(&m, i, j+1)){
-                    andamapa(&m, i, j, i , j+1);
+                int xdestino;
+                int ydestino;
+
+                int encontrou = praondeofantasmavai(i, j, &xdestino, &ydestino);
+                
+                if(encontrou){
+                    andamapa(&m, i, j, xdestino, ydestino);
                 }
             }
         }
