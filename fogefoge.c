@@ -7,6 +7,7 @@
 MAPA m;
 MAPA copia;
 POSICAO heroi;
+int temPilula = 0;
 
 int main(){
 
@@ -14,6 +15,8 @@ int main(){
     encontraMapa(&m, &heroi, PERSONAGEM);
     
     do{
+        printf("Tem pilula: %s\n", (temPilula ? "SIM" : "NAO"));
+
         printMapa(&m);
 
         char comando;
@@ -21,6 +24,8 @@ int main(){
         fflush(stdin);
 
         move(comando);
+
+        if(comando == BOMBA) explodePilula();
 
         fantasmas();
 
@@ -62,10 +67,14 @@ void move(char direction){
     case DIREITA:
         proximoy++;
         break;
-    }
+}
 
     if(!podeandar(&m, PERSONAGEM, proximox, proximoy))
         return;
+
+    if(ehpersonagem(&m, PILULA, proximox, proximoy)){
+        temPilula = 1;
+    }
         
     andamapa(&m, heroi.x, heroi.y, proximox, proximoy);
     heroi.x = proximox;
@@ -116,4 +125,26 @@ void fantasmas(){
     }
 
     liberaMapa(&copia);
+}
+
+void explodePilula(){
+    explodePilula2(heroi.x, heroi.y, 0, 1, 3);
+    explodePilula2(heroi.x, heroi.y, 0, -1, 3);
+    explodePilula2(heroi.x, heroi.y, 1, 0, 3);
+    explodePilula2(heroi.x, heroi.y, -1, 0, 3);
+}
+
+void explodePilula2(int x, int y, int somax, int somay, int qtd){
+
+    if (qtd ==0) return;
+
+    int novox = x + somax;
+    int novoy = y + somay;
+
+    if(ehparede(&m, novox, novoy)) return;
+    if(!ehvalida(&m, novox, novoy)) return;
+    
+    m.matriz[novox][novoy] = VAZIO;
+    explodePilula2(novox, novoy, somax, somay, qtd-1);
+
 }
