@@ -1,3 +1,13 @@
+#ifndef MAPA_H_
+#define MAPA_H_
+
+#define PERSONAGEM '@'
+#define FANTASMA 'F'
+#define PILULA 'P'
+#define VAZIO '.'
+#define PAREDEVERTICAL '|'
+#define PAREDEHORIZONTAL '-'
+
 struct mapa
 {
     char** matriz;
@@ -17,7 +27,6 @@ typedef struct posicao POSICAO;
 void liberaMapa();
 void leMapa();
 void alocaMapa();
-void printMapa();
 int encontraMapa(MAPA* m, POSICAO* p, char c);
 int ehvalida(MAPA*m, int x, int y);
 int ehcaminho(MAPA*m , int x, int y);
@@ -27,6 +36,4 @@ int podeandar(MAPA* m, char personagem, int x, int y);
 int ehparede(MAPA* m, int x, int y);
 int ehpersonagem(MAPA* m, char personagem, int x, int y);
 
-#define VAZIO '.'
-#define PAREDEVERTICAL '|'
-#define PAREDEHORIZONTAL '-'
+#endif

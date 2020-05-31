@@ -3,6 +3,7 @@
 #include <time.h>
 #include "funcoes.h"
 #include "mapa.h"
+#include "ui.h"
 
 MAPA m;
 MAPA copia;

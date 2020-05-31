@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mapa.h"
+#include "ui.h"
 
 void copiamapa(MAPA* destino, MAPA* origem){
     destino->linhas = origem->linhas;
@@ -56,12 +57,6 @@ void alocaMapa(MAPA* m){
 
     for (int i =0; i < m->linhas; i++){
         m->matriz[i] = malloc(sizeof(char) * m->colunas + 1);
-    }
-}
-
-void printMapa(MAPA* m){
-    for(int i =0; i< m->linhas; i++){
-        printf("%s\n", m->matriz[i]);
     }
 }
 
