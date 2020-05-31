@@ -93,7 +93,7 @@ int encontraMapa(MAPA* m, POSICAO* p, char c){
 int podeandar(MAPA* m, char personagem, int x, int y){
     return 
         ehvalida(m, x, y) &&
-        !ehparede(m, x, y);
+        !ehparede(m, x, y) &&
         !ehpersonagem(m, personagem, x, y);
 }
 

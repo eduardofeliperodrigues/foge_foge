@@ -16,5 +16,6 @@ void fantasmas();
 int praondeofantasmavai(int xatual, int yatual, int* xdestino, int* ydestino);
 void explodePilula();
 void explodePilula2(int x, int y, int somax, int somay, int qtd);
+void vocePerdeu();
 
 #endif

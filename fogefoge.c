@@ -32,6 +32,8 @@ int main(){
 
     }while(!acabou());
 
+    vocePerdeu();
+
     liberaMapa(&m);
 }
 
@@ -70,7 +72,7 @@ void move(char direction){
         break;
 }
 
-    if(!podeandar(&m, PERSONAGEM, proximox, proximoy))
+    if(!podeandar(&m, FANTASMA, proximox, proximoy))
         return;
 
     if(ehpersonagem(&m, PILULA, proximox, proximoy)){
@@ -153,4 +155,18 @@ void explodePilula2(int x, int y, int somax, int somay, int qtd){
     m.matriz[novox][novoy] = VAZIO;
     explodePilula2(novox, novoy, somax, somay, qtd-1);
 
+}
+
+
+
+void vocePerdeu(){
+    system("cls");
+    printf("\n\n\n\n");
+    printf("__      __   ____     _____   ______     _____    ______   _____    _____    ______   _    _        \n"  );
+    printf("\\ \\    / /  / __ \\   / ____| |  ____|   |  __ \\  |  ____| |  __ \\  |  __ \\  |  ____| | |  | | \n"  );
+    printf(" \\ \\  / /  | |  | | | |      | |__      | |__) | | |__    | |__) | | |  | | | |__    | |  | |     \n"  );
+    printf("  \\ \\/ /   | |  | | | |      |  __|     |  ___/  |  __|   |  _  /  | |  | | |  __|   | |  | |     \n"  );
+    printf("   \\  /    | |__| | | |____  | |____    | |      | |____  | | \\ \\  | |__| | | |____  | |__| |    \n"  );
+    printf("    \\/      \\____/   \\_____| |______|   |_|      |______| |_|  \\_\\ |_____/  |______|  \\____/  \n"  );
+    printf("\n\n\n\n");
 }
